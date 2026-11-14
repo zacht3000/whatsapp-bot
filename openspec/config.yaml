@@ -1,0 +1,61 @@
+schema: spec-driven
+
+context: |
+  Escribe todos los artefactos en español.
+
+  Producto: bot de WhatsApp para un restaurante, sobre la WhatsApp Cloud API de Meta.
+  Objetivo principal: atender automáticamente a clientes que quieren reservar mesa.
+
+  Stack: Spring Boot 4, Java 27, Maven, PostgreSQL, migraciones con Flyway
+  (no usar ddl-auto para el esquema).
+
+  Reglas de negocio:
+  - Los mensajes al cliente van en español, con un tono cercano y breve.
+  - Zona horaria: Europe/Madrid (fechas y horas de reserva en hora local de España).
+  - El horario de reservas (franjas y días de cierre) y el máximo de personas por
+    reserva se guardan en base de datos, nunca en código ni en application.yml.
+    El bot siempre los lee de la base de datos.
+  - Los valores iniciales se cargan con migraciones de Flyway:
+    - Horario del restaurante: de martes a domingo, de 13:00 a 23:00 (cierre).
+    - Horas de reserva admitidas: de 13:00 a 22:30, ambas incluidas
+      (22:30 es la última hora a la que se puede reservar).
+    - Lunes: cerrado (no se admiten reservas para ese día).
+    - Máximo de personas por reserva: 15.
+  - El bot atiende y acepta solicitudes de reserva a cualquier hora y cualquier día,
+    lunes incluido. Solo la fecha y hora reservadas deben caer dentro del horario.
+  - No hay mínimo de personas por reserva (cualquier número a partir de 1).
+  - Si un grupo supera el máximo, el bot no reserva y deriva a un humano.
+  - Fuera de alcance por ahora: el panel de administración para editar horario,
+    mínimos y máximos. Será un cambio futuro; el modelo de datos debe permitirlo
+    sin rediseño.
+
+# Project context (optional)
+# Add only constraints that should guide OpenSpec artifacts and workflows.
+# Include constraints an agent cannot infer by reading the code.
+# Keep general project documentation and discoverable codebase facts out.
+# Example:
+#   context: |
+#     Designs and tasks must cover Windows, macOS, and Linux
+#     Write all artifacts in Spanish
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always state what is out of scope
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing
