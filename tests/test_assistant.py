@@ -27,6 +27,22 @@ def test_environment_overrides_dotenv(tmp_path):
     assert Settings().model == "test/model"
 
 
+def test_configured_model_targets_openrouter(monkeypatch):
+    captured = {}
+
+    def create_model(**kwargs):
+        captured.update(kwargs)
+        return FakeListChatModel(responses=["Respuesta de prueba"])
+
+    monkeypatch.setattr("openrouter_assistant.chat.ChatOpenAI", create_model)
+    build_chain(Settings())
+
+    assert captured["api_key"] == "test-secret-only"
+    assert captured["base_url"] == "https://openrouter.ai/api/v1"
+    assert captured["model"] == "test/model"
+    assert captured["timeout"] == 30
+
+
 @pytest.mark.parametrize(
     ("name", "value"),
     [

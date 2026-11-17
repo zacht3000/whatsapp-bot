@@ -1,13 +1,15 @@
 # Asistente con Python, LangChain y OpenRouter
 
 Proyecto mínimo de consola para enviar una pregunta a un modelo de OpenRouter.
-Usa la integración oficial `langchain-openrouter` y una cadena de LangChain:
-`ChatPromptTemplate → ChatOpenRouter → StrOutputParser`.
+Usa `langchain-openai` contra la API compatible con OpenAI de OpenRouter y una cadena:
+`ChatPromptTemplate → ChatOpenAI → StrOutputParser`.
 Cada ejecución realiza una consulta independiente, sin historial persistente.
 
 ## Preparación
 
 Requiere Python 3.11 o superior y una cuenta de OpenRouter con acceso al modelo elegido.
+Validado con CPython 3.11, 3.12, 3.13, 3.14 y 3.15. En Windows, usa Developer PowerShell
+for VS 2022 para instalar si alguna dependencia debe compilarse desde su código fuente.
 En PowerShell, desde la raíz del proyecto:
 
 ```powershell
