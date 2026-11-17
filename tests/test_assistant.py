@@ -89,3 +89,21 @@ def test_blank_question_is_rejected():
     with pytest.raises(SystemExit) as exc:
         main(["   "])
     assert exc.value.code == 2
+
+
+@pytest.mark.parametrize("response", ["", "   \n", "Respuesta de prueba"])
+def test_cli_handles_provider_response(monkeypatch, capsys, response):
+    model = FakeListChatModel(responses=[response])
+    monkeypatch.setattr(
+        "openrouter_assistant.cli.build_chain", lambda settings: build_chain(settings, model=model)
+    )
+    result = main(["Hola"])
+    output = capsys.readouterr()
+    assert "Consultando OpenRouter" in output.err
+    if response.strip():
+        assert result == 0
+        assert output.out == response + "\n"
+    else:
+        assert result == 1
+        assert not output.out
+        assert "no devolvió texto" in output.err

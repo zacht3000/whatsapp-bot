@@ -28,6 +28,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     try:
+        print("Consultando OpenRouter…", file=sys.stderr, flush=True)
         response = build_chain(settings).invoke({"question": question})
     except KeyboardInterrupt:
         print("Consulta cancelada.", file=sys.stderr)
@@ -36,6 +37,14 @@ def main(argv: list[str] | None = None) -> int:
         # El SDK puede incluir datos de la petición en la excepción. No se muestran.
         print(
             "No se pudo consultar OpenRouter. Revisa conexión, credenciales, saldo y modelo.",
+            file=sys.stderr,
+        )
+        return 1
+
+    if not response.strip():
+        print(
+            "OpenRouter no devolvió texto. Usa un modelo de chat en OPENROUTER_MODEL "
+            "y revisa AI_MAX_TOKENS si el modelo consume tokens de razonamiento.",
             file=sys.stderr,
         )
         return 1
