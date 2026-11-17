@@ -1,0 +1,25 @@
+# PostgreSQL para desarrollo local.
+# Las credenciales se leen de variables de entorno (o de un archivo .env no versionado):
+#   DB_USERNAME, DB_PASSWORD
+# Uso: docker compose up -d
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: whatsapp-bot-postgres
+    environment:
+      POSTGRES_DB: restaurante_db
+      POSTGRES_USER: ${DB_USERNAME:?Define DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Define DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
