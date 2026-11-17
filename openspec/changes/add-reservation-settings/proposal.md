@@ -31,7 +31,7 @@ Fuera de alcance: el panel de administración, los cierres por fechas concretas 
 ## Impact
 
 - **Dependencias (`pom.xml`)**: Flyway para PostgreSQL y, para los tests de integración, Testcontainers con PostgreSQL. Ambas se justifican en `design.md` y requieren aprobación antes de tocar el `pom.xml`.
-- **Configuración**: en `application.yml`, `spring.jpa.hibernate.ddl-auto` pasa de `update` a `validate`. Se elimina `application.properties`, que duplica `spring.application.name`.
+- **Configuración**: en `application.yml`, `spring.jpa.hibernate.ddl-auto` pasa de `update` a `validate`. `application.properties` se mantiene sin cambios.
 - **Base de datos**: nuevas tablas y migraciones en `src/main/resources/db/migration/`.
 - **Código**: nuevo paquete `reservation` (entidades, repositorios y servicio de reglas). No afecta al webhook de WhatsApp.
 - **Tests**: el test de arranque de contexto pasa a necesitar una base de datos PostgreSQL (Testcontainers).

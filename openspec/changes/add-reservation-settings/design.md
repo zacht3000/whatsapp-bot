@@ -76,7 +76,7 @@ reservation_settings (
 
 ### 5. Configuración
 - `ddl-auto: validate`.
-- Se borra `application.properties`, que duplica `spring.application.name`.
+- Se mantiene `application.properties`: repite `spring.application.name` con el mismo valor que `application.yml` y no afecta al comportamiento.
 
 ### 6. Estrategia de tests
 - **Unitarios** de `ReservationRulesService`, con repositorios simulados con Mockito. Cubren todos los escenarios de la spec, incluidos los límites 13:00, 22:30, 12:59 y 22:31.

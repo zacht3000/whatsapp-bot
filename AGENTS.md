@@ -25,13 +25,13 @@ como los grupos que superan el máximo de personas configurado en base de datos.
 
 ## Stack
 
-- Java [VERSION, p. ej. 21]
+- Java 27
 - Build: Maven (usar siempre el wrapper `./mvnw`)
-- Framework: [p. ej. Spring Boot 3.x]
-- WhatsApp: [p. ej. WhatsApp Cloud API / Twilio / librería X]
-- Persistencia: [p. ej. PostgreSQL + Spring Data JPA / ninguna]
-- Tests: [p. ej. JUnit 5 + Mockito + Testcontainers]
-- Otros: [p. ej. Lombok, MapStruct, Flyway]
+- Framework: Spring Boot 4.1
+- WhatsApp: WhatsApp Cloud API de Meta (Graph API)
+- Persistencia: PostgreSQL + Spring Data JPA; esquema gestionado solo con Flyway (`ddl-auto: validate`)
+- Tests: JUnit Jupiter 6 + Mockito + Testcontainers (PostgreSQL)
+- Otros: Lombok
 
 ## Estructura
 
@@ -60,6 +60,9 @@ openspec/
 ```
 
 ## Comandos
+
+> Los tests arrancan PostgreSQL con Testcontainers: **Docker debe estar en marcha**
+> antes de `./mvnw test` o `./mvnw clean verify`.
 
 ```bash
 ./mvnw clean verify          # compilar + tests + checks (usar antes de dar algo por terminado)
